@@ -1,7 +1,15 @@
 import axios from 'axios';
 
+let resolvedUrl = 'http://localhost:5000/api';
+if (import.meta.env.VITE_API_URL) {
+  let envUrl = import.meta.env.VITE_API_URL.trim();
+  if (envUrl.endsWith('/')) envUrl = envUrl.slice(0, -1);
+  if (!envUrl.endsWith('/api')) envUrl += '/api';
+  resolvedUrl = envUrl;
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: resolvedUrl,
 });
 
 // Add a request interceptor to include the auth token
